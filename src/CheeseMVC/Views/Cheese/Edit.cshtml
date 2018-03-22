@@ -1,0 +1,29 @@
+﻿@model CheeseMVC.Models.Cheese
+
+<h2>Edit Cheese</h2>
+
+<form asp-controller="Cheese" asp-action="Edit" method="post">
+
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    @*<div class="form-group">
+            <label asp-for="CategoryID"></label>
+            <select asp-for="CategoryID" asp-items="Model.Categories"></select>
+        </div>*@
+
+    <input type="hidden" name="CategoryID" value="@Model.CategoryID" />
+    <input type="hidden" name="ID" value="@Model.ID" />
+    <input type="submit" value="Edit Cheese" />
+
+</form>
+

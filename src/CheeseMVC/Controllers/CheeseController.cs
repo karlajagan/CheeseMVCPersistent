@@ -83,5 +83,24 @@ namespace CheeseMVC.Controllers
             ViewBag.cheeses = context.Cheeses.ToList();            
             return Redirect("/");
         }
+
+        public IActionResult Edit(int cheeseId)
+        {
+            Cheese cheeseToUpdate = context.Cheeses.Single(c => c.ID == cheeseId);          
+            return View(cheeseToUpdate);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Cheese toUpdateCheese)
+        {
+            Cheese updateCheese = context.Cheeses
+                .Find(toUpdateCheese.ID);
+
+            updateCheese.Name = toUpdateCheese.Name;
+            updateCheese.Description = toUpdateCheese.Description;
+            context.SaveChanges();
+
+            return Redirect("/Cheese");
+        }
     }
 }
