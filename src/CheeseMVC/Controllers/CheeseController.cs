@@ -59,22 +59,28 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Remove()
         {
-            ViewBag.title = "Remove Cheeses";
-            ViewBag.cheeses = context.Cheeses.ToList();
-            return View();
+            IList<Cheese> cheeses = context.Cheeses.Include(c => c.Category).ToList();
+            return View(cheeses);
         }
 
         [HttpPost]
         public IActionResult Remove(int[] cheeseIds)
         {
-            /*foreach (int cheeseId in cheeseIds)
+            foreach (int cheeseId in cheeseIds)
             {
-                Cheese theCheese = context.Categories.Single(c => c.ID == cheeseId);
+                List<CheeseMenu> cheeseMenu = context.CheeseMenus
+                    .Where(cm => cm.CheeseID == cheeseId).ToList();
+
+                foreach (CheeseMenu cheesemenu in cheeseMenu)
+                {
+                    context.CheeseMenus.Remove(cheesemenu);
+                }
+                context.SaveChanges();
+                Cheese theCheese = context.Cheeses.Single(c => c.ID == cheeseId);
                 context.Cheeses.Remove(theCheese);
-            }*/
-
+            }
             context.SaveChanges();
-
+            ViewBag.cheeses = context.Cheeses.ToList();            
             return Redirect("/");
         }
     }
